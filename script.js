@@ -1,68 +1,78 @@
-// Task Lists
-const pendingTasks = document.getElementById("pending-tasks");
-const completedTasks = document.getElementById("completed-tasks");
+// Reference elements
+const signupPage = document.getElementById("signupPage");
+const loginPage = document.getElementById("loginPage");
+const securedPage = document.getElementById("securedPage");
 
-// Add Task Button Event
-document.getElementById("add-task-btn").addEventListener("click", addTask);
+const signupForm = document.getElementById("signupForm");
+const loginForm = document.getElementById("loginForm");
+const logoutButton = document.getElementById("logoutButton");
 
-function addTask() {
-  const title = document.getElementById("task-title").value.trim();
-  const desc = document.getElementById("task-desc").value.trim();
+const signupMessage = document.getElementById("signupMessage");
+const loginMessage = document.getElementById("loginMessage");
 
-  if (title === "" || desc === "") {
-    alert("Please fill in all fields!");
-    return;
-  }
+const goToLogin = document.getElementById("goToLogin");
+const goToSignup = document.getElementById("goToSignup");
 
-  // Create Task Element
-  const taskElement = document.createElement("li");
-  taskElement.className = "task";
-  taskElement.innerHTML = `
-    <div>
-      <strong>${title}</strong>
-      <p>${desc}</p>
-      <small>Added: ${new Date().toLocaleString()}</small>
-    </div>
-    <div>
-      <button class="complete-btn">Complete</button>
-      <button class="edit-btn">Edit</button>
-      <button class="delete-btn">Delete</button>
-    </div>
-  `;
+// Event listeners for navigation
+goToLogin.addEventListener("click", () => {
+    signupPage.classList.add("hidden");
+    loginPage.classList.remove("hidden");
+    signupMessage.textContent = "";
+});
 
-  // Add Event Listeners
-  taskElement.querySelector(".complete-btn").addEventListener("click", () => completeTask(taskElement));
-  taskElement.querySelector(".edit-btn").addEventListener("click", () => editTask(taskElement));
-  taskElement.querySelector(".delete-btn").addEventListener("click", () => taskElement.remove());
+goToSignup.addEventListener("click", () => {
+    loginPage.classList.add("hidden");
+    signupPage.classList.remove("hidden");
+    loginMessage.textContent = "";
+});
 
-  pendingTasks.appendChild(taskElement);
-  clearForm();
+// Signup functionality
+signupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById("signupUsername").value;
+    const password = document.getElementById("signupPassword").value;
+
+    if (localStorage.getItem(username)) {
+        signupMessage.textContent = "User already exists!";
+    } else {
+        localStorage.setItem(username, password);
+        signupMessage.textContent = "Signup successful! Please login.";
+        signupForm.reset();
+    }
+});
+
+// Login functionality
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+
+    if (localStorage.getItem(username) === password) {
+        loginMessage.textContent = "";
+        loginForm.reset();
+        showSecuredPage();
+    } else {
+        loginMessage.textContent = "Invalid username or password!";
+    }
+});
+
+// Logout functionality
+logoutButton.addEventListener("click", () => {
+    showSignupPage();
+});
+
+// Show secured page
+function showSecuredPage() {
+    securedPage.classList.remove("hidden");
+    signupPage.classList.add("hidden");
+    loginPage.classList.add("hidden");
 }
 
-function completeTask(taskElement) {
-  // Move to Completed Tasks
-  taskElement.querySelector(".complete-btn").remove(); // Remove Complete Button
-  taskElement.querySelector(".edit-btn").remove();     // Remove Edit Button
-  const timeStamp = taskElement.querySelector("small");
-  timeStamp.innerHTML = `Completed: ${new Date().toLocaleString()}`;
-
-  completedTasks.appendChild(taskElement);
-}
-
-function editTask(taskElement) {
-  // Fetch current details
-  const title = taskElement.querySelector("strong").innerText;
-  const desc = taskElement.querySelector("p").innerText;
-
-  // Populate form with current task details
-  document.getElementById("task-title").value = title;
-  document.getElementById("task-desc").value = desc;
-
-  // Remove the task after editing
-  taskElement.remove();
-}
-
-function clearForm() {
-  document.getElementById("task-title").value = "";
-  document.getElementById("task-desc").value = "";
+// Show signup page (default)
+function showSignupPage() {
+    securedPage.classList.add("hidden");
+    signupPage.classList.remove("hidden");
+    loginPage.classList.add("hidden");
 }
