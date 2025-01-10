@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="calculator">
-        <input type="text" id="display" disabled placeholder="0">
-        <div class="buttons">
-            <button onclick="appendToDisplay('(')">(</button>
-            <button onclick="appendToDisplay(')')">)</button>
-            <button onclick="useAnswer()">ans</button>
-            <button onclick="deleteLast()">del</button>
-            <button onclick="clearDisplay()">clear</button>
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('%')">%</button>
-            <button onclick="appendToDisplay('Math.sqrt(')">√</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('*')">x</button>
-            <button onclick="appendToDisplay('/')">÷</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('+')">+</button>
-            <button onclick="appendToDisplay('-')">-</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="calculate()">ENTER</button>
-        </div>
+  <div class="container">
+    <h1>To-Do App</h1>
+    <!-- Add Task Form -->
+    <div class="task-form">
+      <input type="text" id="task-title" placeholder="Task Title" required>
+      <textarea id="task-desc" placeholder="Task Description" required></textarea>
+      <button id="add-task-btn">Add Task</button>
     </div>
-    <script src="script.js"></script>
+    
+    <!-- Pending Tasks -->
+    <h2>Pending Tasks</h2>
+    <ul id="pending-tasks"></ul>
+
+    <!-- Completed Tasks -->
+    <h2>Completed Tasks</h2>
+    <ul id="completed-tasks"></ul>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
